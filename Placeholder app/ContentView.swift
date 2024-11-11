@@ -18,9 +18,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Goals", systemImage: "figure.mixed.cardio")
                 }
-            
-            
-            
+           
         }
     }
 }

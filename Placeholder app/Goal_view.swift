@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Goal_view: View {
     var body: some View {
-        Text("HI THERE")
+        Text("testing")
     }
 }
 

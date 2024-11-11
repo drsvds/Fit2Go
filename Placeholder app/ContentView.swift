@@ -12,11 +12,11 @@ struct ContentView: View {
         TabView {
             Goal_view()
                 .tabItem {
-                    Label("Goals", systemImage: "house.fill")
+                    Label("Home", systemImage: "house.fill")
                 }
             Workout_View()
                 .tabItem {
-                    Label("Goals", systemImage: "figure.mixed.cardio")
+                    Label("Workout", systemImage: "figure.mixed.cardio")
                 }
            
         }

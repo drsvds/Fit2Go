@@ -41,8 +41,12 @@ struct Goal_view: View {
             }
             .navigationTitle(Text(date, style: .date))
         }
+        List{
+            Text("balls")
+            
+        }
     }
-    
+
 }
 #Preview {
     Goal_view()

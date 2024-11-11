@@ -13,6 +13,7 @@ struct Goal_view: View {
     var body: some View {
         
         NavigationStack{
+            VStack{
                 ZStack {
                     Circle()
                         .stroke(lineWidth: 10)
@@ -35,13 +36,14 @@ struct Goal_view: View {
                         .fontWeight(.bold)
                 }
                 .frame(width: 150, height: 150)
-            
-        }
-        .navigationTitle(Text(date, style: .date))
-                }
+                
+                
             }
-        
-
+            .navigationTitle(Text(date, style: .date))
+        }
+    }
+    
+}
 #Preview {
     Goal_view()
 }

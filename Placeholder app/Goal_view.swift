@@ -10,6 +10,9 @@ import SwiftUI
 struct Goal_view: View {
     let date = Date.now
     @State private var goalCompletionPercentage = 60
+    
+    let workouts = ["test", "testing"]
+    
     var body: some View {
         
         NavigationStack{
@@ -37,17 +40,20 @@ struct Goal_view: View {
                 }
                 .frame(width: 150, height: 150)
                 
-                
+                ScrollView{
+                    ForEach(workouts, id: \.self) { workout in
+                        Text(workout)
+                    }
+                        
+                }
             }
             .navigationTitle(Text(date, style: .date))
         }
-        List{
-            Text("balls")
-            
+        
         }
     }
 
-}
+
 #Preview {
     Goal_view()
 }

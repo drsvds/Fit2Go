@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct WorkoutPlanView: View {
+struct Workout_View: View {
     @State private var selectedDifficulty = "Normal"
     @State private var exercises = [
         ("Pushups", "10"),
@@ -76,22 +76,7 @@ struct WorkoutPlanView: View {
             
             Spacer()
             
-            // "K" Floating Button
-            HStack {
-                Spacer()
-                VStack {
-                    Spacer()
-                    Circle()
-                        .fill(Color.blue)
-                        .frame(width: 50, height: 50)
-                        .overlay(
-                            Text("K")
-                                .font(.title)
-                                .foregroundColor(.white)
-                        )
-                        .padding()
-                }
-            }
+           
         }
         .padding()
     }
@@ -99,6 +84,6 @@ struct WorkoutPlanView: View {
 
 struct WorkoutPlanView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutPlanView()
+        Workout_View()
     }
 }

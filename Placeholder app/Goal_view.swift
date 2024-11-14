@@ -5,10 +5,12 @@ struct Goal_view: View {
     @State private var dailyProgress = 0.6
     @State private var streakWeeks = 8
     
+    let date = Date.now
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             // Date and Title
-            Text("Friday, 8 November")
+            Text(date, style: .date)
                 .font(.subheadline)
                 .foregroundColor(.gray)
             Text("Summary")

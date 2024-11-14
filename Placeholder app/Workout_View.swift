@@ -3,12 +3,12 @@ import SwiftUI
 struct Workout_View: View {
     @State private var selectedDifficulty = "Normal"
     @State private var exercises = [
-        ("Pushups", "10"),
-        ("Situps", "10"),
-        ("Squat", "10"),
-        ("Curl", "10"),
-        ("Leg raise", "10"),
-        ("Burpee", "10")
+        ("Pushups", 10),
+        ("Situps", 10),
+        ("Squat", 10),
+        ("Curl", 10),
+        ("Leg raise", 10),
+        ("Burpee", 10)
     ]
     
     var body: some View {
@@ -53,6 +53,9 @@ struct Workout_View: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding(.horizontal)
+            .onChange(of: selectedDifficulty) { _ in
+                updateRepetitions()
+            }
             
             Divider()
             
@@ -65,7 +68,7 @@ struct Workout_View: View {
                         
                         Spacer()
                         
-                        Text(exercises[index].1)
+                        Text("\(exercises[index].1)")
                             .font(.body)
                     }
                     .padding(.horizontal)
@@ -75,10 +78,22 @@ struct Workout_View: View {
             }
             
             Spacer()
-            
-           
         }
         .padding()
+    }
+    
+    // Function to update repetitions based on selected difficulty
+    private func updateRepetitions() {
+        switch selectedDifficulty {
+        case "Recovery":
+            exercises = exercises.map { ($0.0, 5) } // Set all exercises to 5 reps
+        case "Normal":
+            exercises = exercises.map { ($0.0, 10) } // Set all exercises to 10 reps
+        case "Hard":
+            exercises = exercises.map { ($0.0, 20) } // Set all exercises to 20 reps
+        default:
+            break
+        }
     }
 }
 
@@ -87,3 +102,4 @@ struct WorkoutPlanView_Previews: PreviewProvider {
         Workout_View()
     }
 }
+

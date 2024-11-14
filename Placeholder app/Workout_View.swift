@@ -8,8 +8,9 @@ struct Workout_View: View {
         ("Squat", 10),
         ("Curl", 10),
         ("Leg raise", 10),
-        ("Burpee", 10)
-    ]
+        ("Burpee", 10)]
+    @State var date = Date.now
+    
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -21,8 +22,11 @@ struct Workout_View: View {
             
             // Date Navigation
             HStack {
+                
+               
                 Button(action: {
                     // Handle previous date action
+                    date = date.addingTimeInterval(-86400)
                 }) {
                     Image(systemName: "chevron.left")
                         .foregroundColor(.blue)
@@ -30,7 +34,8 @@ struct Workout_View: View {
                 
                 Spacer()
                 
-                Text("19 Jan")
+                
+                Text(date,format: .dateTime.day().month())
                     .font(.title)
                     .bold()
                 
@@ -38,6 +43,7 @@ struct Workout_View: View {
                 
                 Button(action: {
                     // Handle next date action
+                    date = date.addingTimeInterval(86400)
                 }) {
                     Image(systemName: "chevron.right")
                         .foregroundColor(.blue)

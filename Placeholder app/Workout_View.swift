@@ -105,4 +105,3 @@ struct WorkoutPlanView_Previews: PreviewProvider {
         Workout_View()
     }
 }
-

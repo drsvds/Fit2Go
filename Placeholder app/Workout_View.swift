@@ -69,6 +69,7 @@ struct Workout_View: View {
                         Spacer()
                         
                         Text("\(exercises[index].1)")
+                            .contentTransition(.numericText())
                             .font(.body)
                     }
                     .padding(.horizontal)
@@ -84,15 +85,17 @@ struct Workout_View: View {
     
     // Function to update repetitions based on selected difficulty
     private func updateRepetitions() {
-        switch selectedDifficulty {
-        case "Recovery":
-            exercises = exercises.map { ($0.0, 5) } // Set all exercises to 5 reps
-        case "Normal":
-            exercises = exercises.map { ($0.0, 10) } // Set all exercises to 10 reps
-        case "Hard":
-            exercises = exercises.map { ($0.0, 20) } // Set all exercises to 20 reps
-        default:
-            break
+        withAnimation {
+            switch selectedDifficulty {
+            case "Recovery":
+                exercises = exercises.map { ($0.0, 5) } // Set all exercises to 5 reps
+            case "Normal":
+                exercises = exercises.map { ($0.0, 10) } // Set all exercises to 10 reps
+            case "Hard":
+                exercises = exercises.map { ($0.0, 20) } // Set all exercises to 20 reps
+            default:
+                break
+            }
         }
     }
 }

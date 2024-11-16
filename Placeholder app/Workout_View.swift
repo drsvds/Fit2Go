@@ -17,7 +17,7 @@ struct Workout_View: View {
     @State private var timer: Timer? = nil
     @State private var workoutTime = 60
     @State private var showPicker : Bool = false
-    
+    @State var workoutOngoing: Bool = false
     @Binding var workoutsCompleted: Double
     
     var body: some View {
@@ -69,6 +69,7 @@ struct Workout_View: View {
             .onChange(of: selectedDifficulty) { _ in
                 updateRepetitions()
             }
+            .animation(.default, value: 2)
             
             Divider()
             

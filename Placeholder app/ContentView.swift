@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var workoutsCompleted: Int = 0
+    
+    
     var body: some View {
         TabView {
-            Goal_view()
+            Goal_view(workoutsCompleted: $workoutsCompleted)
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
-            Workout_View(workoutsCompleted: .constant(0))
+            Workout_View(workoutsCompleted: $workoutsCompleted)
                 .tabItem {
                     Label("Workout", systemImage: "figure.mixed.cardio")
                 }

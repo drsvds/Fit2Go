@@ -2,7 +2,7 @@ import SwiftUI
 
 struct Goal_view: View {
     @State private var completedTasks = [true, true, false, false]
-    @State private var dailyProgress = 0.6
+    @State private var dailyProgress = 0.333333
     @State private var streakWeeks = 8
     
     @State private var exercise = false
@@ -18,7 +18,8 @@ struct Goal_view: View {
         ("Leg raises"),
         ("Burpees")
     ]
-    @State private var workoutsCompleted = 0
+    
+    @Binding var workoutsCompleted: Int
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -134,6 +135,6 @@ struct WorkoutTaskView: View {
     }
 }
 
-#Preview {
-    Goal_view()
-}
+//#Preview {
+//    Goal_view()
+//}

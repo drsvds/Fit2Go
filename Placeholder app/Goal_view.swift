@@ -5,7 +5,20 @@ struct Goal_view: View {
     @State private var dailyProgress = 0.6
     @State private var streakWeeks = 8
     
+    @State private var exercise = false
+    
+    
     let date = Date.now
+    
+    let workouts = [
+        ("Pushups"),
+        ("Situps"),
+        ("Squats"),
+        ("Curls"),
+        ("Leg raises"),
+        ("Burpees")
+    ]
+    @State private var workoutsCompleted = 0
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -35,10 +48,20 @@ struct Goal_view: View {
             // Workout Tasks
             VStack(spacing: 10) {
                 ScrollView{
-                    WorkoutTaskView(time: "9am", task: "Plank", completed: completedTasks[0])
-                    WorkoutTaskView(time: "12pm", task: "Pushups", completed: completedTasks[1])
-                    WorkoutTaskView(time: "4pm", task: "Squats", completed: completedTasks[2])
-                    WorkoutTaskView(time: "7pm", task: "Burpees", completed: completedTasks[3])
+                    ForEach(0..<workouts.count, id: \.self) { index in
+                                        HStack {
+                                            Text(workouts[index])
+                                            Spacer()
+                                            if index < workoutsCompleted {
+                                                Image(systemName: "checkmark.circle.fill")
+                                                    .foregroundColor(.green)
+                                            } else {
+                                                Image(systemName: "circle")
+                                                    .foregroundColor(.gray)
+                                            }
+                                        }
+                                        .contentShape(Rectangle()) 
+                                    }
                 }
             }
             

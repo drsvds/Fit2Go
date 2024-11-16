@@ -14,7 +14,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
-            Workout_View()
+            Workout_View(workoutsCompleted: .constant(0))
                 .tabItem {
                     Label("Workout", systemImage: "figure.mixed.cardio")
                 }

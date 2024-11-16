@@ -2,7 +2,7 @@ import SwiftUI
 
 struct Workout_View: View {
     @State private var selectedDifficulty = "Normal"
-    @State private var exercises = [
+    @State var exercises = [
         ("Pushups", 10, false),
         ("Situps", 10, false),
         ("Squats", 10, false),
@@ -15,6 +15,9 @@ struct Workout_View: View {
     @State private var isTimerRunning = false
     @State private var remainingTime = 60
     @State private var timer: Timer? = nil
+    @State private var workoutTime = 60
+    
+    @Binding var workoutsCompleted: Int
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -114,6 +117,7 @@ struct Workout_View: View {
                     if remainingTime == 0 {
                         if currentExerciseIndex < exercises.count - 1 {
                             Button("Next") {
+                                workoutsCompleted += 1
                                 moveToNextExercise()
                             }
                             .padding()
@@ -191,11 +195,8 @@ struct Workout_View: View {
     }
 }
 
-struct WorkoutPlanView_Previews: PreviewProvider {
-    static var previews: some View {
-        Workout_View()
-    }
+#Preview {
+    Workout_View(workoutsCompleted: .constant(0))
 }
-
 
 

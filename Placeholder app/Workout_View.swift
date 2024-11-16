@@ -163,7 +163,7 @@ struct Workout_View: View {
     // Function to start the timer
     private func startTimer() {
         isTimerRunning = true
-        remainingTime = 1
+        remainingTime = 60
         
         // Create and start the timer
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in

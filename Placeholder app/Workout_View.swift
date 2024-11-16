@@ -17,7 +17,7 @@ struct Workout_View: View {
     @State private var timer: Timer? = nil
     @State private var workoutTime = 60
     @State private var showPicker : Bool = false
-    @State private var selectedOption = "Normal"
+    
     @Binding var workoutsCompleted: Double
     
     var body: some View {
@@ -110,6 +110,9 @@ struct Workout_View: View {
                     if !isTimerRunning {
                         Button("Start") {
                             startTimer()
+                            if !(1...6).contains(Int(workoutsCompleted)) {
+                                showPicker.toggle()
+                            }
                         }
                         .padding(30)
                         .background(Color.green)

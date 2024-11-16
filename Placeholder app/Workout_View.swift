@@ -135,6 +135,7 @@ struct Workout_View: View {
                             Button("Finish") {
                                 finishWorkout()
                                 workoutsCompleted += 1
+                                currentExerciseIndex += 1
                                 streakDays += 1
                                 if(streakDays == 8){
                                     streakDays = 1

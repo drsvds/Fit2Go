@@ -19,7 +19,8 @@ struct Workout_View: View {
     @State private var showPicker : Bool = false
     @State var workoutOngoing: Bool = false
     @Binding var workoutsCompleted: Double
-    
+    @Binding var streakDays: Double
+    @Binding var streakWeeks: Double
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             // Title
@@ -134,6 +135,11 @@ struct Workout_View: View {
                         } else {
                             Button("Finish") {
                                 finishWorkout()
+                                streakDays += 1
+                                if(streakDays == 8){
+                                        streakDays = 1
+                                        streakWeeks += 1
+                                    }
                             }
                             .padding(30)
                             .background(Color.red)
@@ -201,8 +207,8 @@ struct Workout_View: View {
     }
 }
 
-#Preview {
-    Workout_View(workoutsCompleted: .constant(0))
-}
+//#Preview {
+//    Workout_View(workoutsCompleted: .constant(0))
+//}
 
 

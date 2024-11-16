@@ -16,8 +16,9 @@ struct Workout_View: View {
     @State private var remainingTime = 60
     @State private var timer: Timer? = nil
     @State private var workoutTime = 60
-    
-    @Binding var workoutsCompleted: Int
+    @State private var showPicker : Bool = false
+    @State private var selectedOption = "Normal"
+    @Binding var workoutsCompleted: Double
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -56,11 +57,13 @@ struct Workout_View: View {
             .padding(.horizontal)
             
             // Difficulty Picker
+            
             Picker(selection: $selectedDifficulty, label: Text("Difficulty")) {
                 Text("Recovery").tag("Recovery")
                 Text("Normal").tag("Normal")
                 Text("Hard").tag("Hard")
             }
+            .disabled(showPicker)
             .pickerStyle(SegmentedPickerStyle())
             .padding(.horizontal)
             .onChange(of: selectedDifficulty) { _ in
@@ -108,7 +111,7 @@ struct Workout_View: View {
                         Button("Start") {
                             startTimer()
                         }
-                        .padding()
+                        .padding(30)
                         .background(Color.green)
                         .foregroundColor(.white)
                         .cornerRadius(8)
@@ -120,7 +123,7 @@ struct Workout_View: View {
                                 workoutsCompleted += 1
                                 moveToNextExercise()
                             }
-                            .padding()
+                            .padding(30)
                             .background(Color.yellow)
                             .foregroundColor(.white)
                             .cornerRadius(8)
@@ -128,7 +131,7 @@ struct Workout_View: View {
                             Button("Finish") {
                                 finishWorkout()
                             }
-                            .padding()
+                            .padding(30)
                             .background(Color.red)
                             .foregroundColor(.white)
                             .cornerRadius(8)

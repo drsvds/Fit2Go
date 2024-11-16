@@ -3,6 +3,7 @@ import SwiftUI
 struct Goal_view: View {
     @State private var completedTasks = [true, true, false, false]
     @State private var dailyProgress = 0.333333
+    
     @State private var streakWeeks = 8
     
     @State private var exercise = false
@@ -19,7 +20,7 @@ struct Goal_view: View {
         ("Burpees")
     ]
     
-    @Binding var workoutsCompleted: Int
+    @Binding var workoutsCompleted: Double
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -36,7 +37,7 @@ struct Goal_view: View {
             
             // Progress Circle
             VStack {
-                CircularProgressView(progress: dailyProgress)
+                CircularProgressView(progress: (workoutsCompleted/6))
                     .frame(width: 120, height: 120)
             }
             .frame(maxWidth: .infinity)
@@ -53,7 +54,7 @@ struct Goal_view: View {
                                         HStack {
                                             Text(workouts[index])
                                             Spacer()
-                                            if index < workoutsCompleted {
+                                            if index < Int(workoutsCompleted) {
                                                 Image(systemName: "checkmark.circle.fill")
                                                     .foregroundColor(.green)
                                             } else {
@@ -134,7 +135,7 @@ struct WorkoutTaskView: View {
         }
     }
 }
-
+ 
 //#Preview {
 //    Goal_view()
 //}

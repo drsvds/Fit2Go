@@ -136,8 +136,8 @@ struct Workout_View: View {
                                 finishWorkout()
                                 streakDays += 1
                                 if(streakDays == 8){
-                                        streakDays = 1
-                                        streakWeeks += 1
+                                    streakDays = 1
+                                    streakWeeks += 1
                                 }
                             }
                             .padding(30)

@@ -78,7 +78,7 @@ struct Goal_view: View {
                     HStack(spacing: 8) {
                         ForEach(0..<7) { index in
                             Circle()
-                                .fill(index < 5 ? Color.green : Color.green.opacity(0.3))
+                                .fill(index < Int(streakDays) ? Color.green : Color.green.opacity(0.3))
                                 .frame(width: 24, height: 24)
                         }
                     }

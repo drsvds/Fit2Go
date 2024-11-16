@@ -138,7 +138,7 @@ struct Workout_View: View {
                                 if(streakDays == 8){
                                         streakDays = 1
                                         streakWeeks += 1
-                                    }
+                                }
                             }
                             .padding(30)
                             .background(Color.red)
@@ -175,7 +175,7 @@ struct Workout_View: View {
     // Function to start the timer
     private func startTimer() {
         isTimerRunning = true
-        remainingTime = 60
+        remainingTime = 1
         // Create and start the timer
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             if remainingTime > 0 {

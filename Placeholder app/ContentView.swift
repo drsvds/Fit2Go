@@ -13,7 +13,7 @@ struct ContentView: View {
     @State var streakWeeks:Double = 0
     var body: some View {
         TabView {
-            Goal_view(streakDays: $workoutsCompleted, streakWeeks: $streakDays, workoutsCompleted: $streakWeeks)
+            Goal_view(streakDays: $streakDays , streakWeeks: $streakWeeks,  workoutsCompleted: $workoutsCompleted)
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }

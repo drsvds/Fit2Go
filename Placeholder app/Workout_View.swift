@@ -135,6 +135,8 @@ struct Workout_View: View {
                         } else {
                             Button("Finish") {
                                 finishWorkout()
+                                workoutsCompleted += 1
+                                currentExerciseIndex += 1
                                 streakDays += 1
                                 if(streakDays == 8){
                                     streakDays = 1
@@ -202,7 +204,6 @@ struct Workout_View: View {
     private func finishWorkout() {
         // Mark all exercises as completed when finishing the workout
         exercises = exercises.map { ($0.0, $0.1, true) } // Set all exercises to completed
-        
         print("Workout Finished!")
     }
 }

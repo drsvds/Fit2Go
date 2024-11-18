@@ -22,6 +22,7 @@ struct Goal_view: View {
     @Binding var streakDays: Double
     @Binding var streakWeeks: Double
     @Binding var workoutsCompleted: Double
+    
         var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             // Date and Title

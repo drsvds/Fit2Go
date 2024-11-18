@@ -17,7 +17,7 @@ struct Workout_View: View {
     @State private var timer: Timer? = nil
     @State private var workoutTime = 60
     @State private var showPicker : Bool = false
-    @State var workoutOngoing: Bool = false
+    
     @Binding var workoutsCompleted: Double
     @Binding var streakDays: Double
     @Binding var streakWeeks: Double

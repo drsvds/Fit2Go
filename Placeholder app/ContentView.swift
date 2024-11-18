@@ -11,17 +11,22 @@ struct ContentView: View {
     @State var workoutsCompleted: Double = 0
     @State var streakDays:Double = 0
     @State var streakWeeks:Double = 0
+    @AppStorage("hasOpenedAppBefore") var hasOpenedAppBefore : Bool = false
+//    @State var hasOpenedAppBefore = false
     var body: some View {
-        TabView {
-            Goal_view(streakDays: $streakDays , streakWeeks: $streakWeeks,  workoutsCompleted: $workoutsCompleted)
-                .tabItem {
-                    Label("Home", systemImage: "house.fill")
-                }
-            Workout_View(workoutsCompleted: $workoutsCompleted, streakDays: $streakDays, streakWeeks: $streakWeeks)
-                .tabItem {
-                    Label("Workout", systemImage: "figure.mixed.cardio")
-                }
-           
+        if hasOpenedAppBefore {
+            TabView {
+                Goal_view(streakDays: $streakDays , streakWeeks: $streakWeeks,  workoutsCompleted: $workoutsCompleted)
+                    .tabItem {
+                        Label("Home", systemImage: "house.fill")
+                    }
+                Workout_View(workoutsCompleted: $workoutsCompleted, streakDays: $streakDays, streakWeeks: $streakWeeks)
+                    .tabItem {
+                        Label("Workout", systemImage: "figure.mixed.cardio")
+                    }
+            }
+        } else {
+            FirstLaunchView(hasOpenedAppBefore: $hasOpenedAppBefore)
         }
     }
 }

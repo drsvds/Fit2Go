@@ -196,20 +196,20 @@ struct Workout_View: View {
         .navigationTitle("Plan")
     }
     
-//    private func updateRepetitions() {
-//        withAnimation {
-//            switch selectedDifficulty {
-//            case "Recovery":
-//                exercises = exercises.map { ($0.0, 5, $0.2) } // Set all exercises to 5 reps
-//            case "Normal":
-//                exercises = exercises.map { ($0.0, 10, $0.2) } // Set all exercises to 10 reps
-//            case "Hard":
-//                exercises = exercises.map { ($0.0, 20, $0.2) } // Set all exercises to 20 reps
-//            default:
-//                break
-//            }
-//        }
-//    }
+    private func updateRepetitions() {
+            withAnimation {
+                switch selectedDifficulty {
+                case "Recovery":
+                    reps = max(reps - 5, 1) // Decrease reps, ensure minimum is 1
+                case "Normal":
+                    reps = 10 // Default for Normal
+                case "Hard":
+                    reps += 5 // Increase reps
+                default:
+                    break
+                }
+            }
+        }
     
     // Function to start the timer
     private func startTimer() {

@@ -103,7 +103,6 @@ struct Workout_View: View {
                         
                         Text("\(index + 1). \(exercises[index].0)")
                             .font(.body)
-                            .strikethrough(exercises[index].1) // Strike through if completed
                         
                         Spacer()
                         
@@ -112,7 +111,6 @@ struct Workout_View: View {
                             .font(.body)
                         
                     }
-                    Divider()
                 }
             }
             

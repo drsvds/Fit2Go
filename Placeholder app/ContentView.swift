@@ -25,9 +25,9 @@ struct ContentView: View {
                 
                 NavigationView {
                     Workout_View(workoutsCompleted: $workoutsCompleted, streakDays: $streakDays, streakWeeks: $streakWeeks)
-                        .tabItem {
-                            Label("Workout", systemImage: "figure.mixed.cardio")
-                        }
+                }
+                .tabItem {
+                    Label("Workout", systemImage: "figure.mixed.cardio")
                 }
             }
         } else {

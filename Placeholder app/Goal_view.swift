@@ -30,8 +30,11 @@ struct Goal_view: View {
                 .font(.title3)
                 .bold()
             ForEach(0..<workouts.count, id: \.self) { index in
+                
                 HStack {
                     Text(workouts[index])
+                        .font(.title2)
+                        .bold()
                     Spacer()
                     if index < Int(workoutsCompleted) {
                         Image(systemName: "checkmark.circle.fill")
@@ -40,6 +43,7 @@ struct Goal_view: View {
                         Image(systemName: "circle")
                             .foregroundColor(.gray)
                     }
+                    
                 }
             }
             

@@ -102,13 +102,13 @@ struct Workout_View: View {
                         }
                         
                         Text("\(index + 1). \(exercises[index].0)")
-                            .font(.body)
+                            .font(.title3)
                         
                         Spacer()
                         
                         Text("\(reps) reps")
                             .contentTransition(.numericText())
-                            .font(.body)
+                            .font(.title3)
                         
                     }
                 }
@@ -124,7 +124,7 @@ struct Workout_View: View {
                         .bold()
                     
                     Text("Time Remaining: \(remainingTime) seconds")
-                        .font(.headline)
+                        .font(.title3)
                     
                     if !isTimerRunning {
                         Button("Start") {

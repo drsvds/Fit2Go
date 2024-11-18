@@ -28,6 +28,8 @@ struct ContentView: View {
                         .tabItem {
                             Label("Workout", systemImage: "figure.mixed.cardio")
                         }
+                }
+            }
         } else {
             FirstLaunchView(hasOpenedAppBefore: $hasOpenedAppBefore)
         }

@@ -37,8 +37,9 @@ struct Workout_View: View {
                     date = date.addingTimeInterval(-86400)
                 }) {
                     Image(systemName: "chevron.left")
-                        .foregroundColor(.blue)
+                        .foregroundColor(showPicker ? .gray : .blue)
                 }
+                .disabled(showPicker)
                 
                 Spacer()
                 
@@ -53,8 +54,9 @@ struct Workout_View: View {
                     date = date.addingTimeInterval(86400)
                 }) {
                     Image(systemName: "chevron.right")
-                        .foregroundColor(.blue)
+                        .foregroundColor(showPicker ? .gray : .blue)
                 }
+                .disabled(showPicker)
             }
             .padding(.horizontal)
             
@@ -209,7 +211,7 @@ struct Workout_View: View {
         // Mark all exercises as completed when finishing the workout
         exercises = exercises.map { ($0.0, $0.1 + 1, true) } // Set all exercises to completed
         print("Workout Finished!")
-        
+        date = date.addingTimeInterval(86400)
     }
 }
 

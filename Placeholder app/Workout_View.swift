@@ -22,7 +22,29 @@ struct Workout_View: View {
     @Binding var workoutsCompleted: Double
     @Binding var streakDays: Double
     @Binding var streakWeeks: Double
-    
+//    func moveDate() {
+//        VStack {
+//            ForEach(0..<exercises.count, id: \.self) { index in
+//                HStack {
+//                    if exercises[index].1 { // Check if completed
+//                        Image(systemName: "checkmark.circle.fill") // Show checkmark if completed
+//                            .foregroundColor(.blue)
+//                    }
+//                    
+//                    Text("\(index + 1). \(exercises[index].0)")
+//                        .font(.body)
+//                        .strikethrough(exercises[index].1) // Strike through if completed
+//                    
+//                    Spacer()
+//                    
+//                    Text("\(reps) reps")
+//                        .contentTransition(.numericText())
+//                        .font(.body)
+//                }
+//                Divider()
+//            }
+//        }
+//    }
     var body: some View {
         VStack(alignment: .leading) {
             // Date Navigation
@@ -30,6 +52,7 @@ struct Workout_View: View {
                 Button(action: {
                     // Handle previous date action
                     date = date.addingTimeInterval(-86400)
+                    reps -= 1
                 }) {
                     Image(systemName: "chevron.left")
                         .foregroundColor(showPicker ? .gray : .blue)
@@ -47,6 +70,7 @@ struct Workout_View: View {
                 Button(action: {
                     // Handle next date action
                     date = date.addingTimeInterval(86400)
+                    reps += 1
                 }) {
                     Image(systemName: "chevron.right")
                         .foregroundColor(showPicker ? .gray : .blue)
@@ -86,6 +110,7 @@ struct Workout_View: View {
                         Text("\(reps) reps")
                             .contentTransition(.numericText())
                             .font(.body)
+                        
                     }
                     Divider()
                 }

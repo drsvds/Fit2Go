@@ -45,10 +45,8 @@ struct Goal_view: View {
             
             Divider()
             
-            Text("Workout Log")
-                .bold()
-                .font(.title3)
-            WorkoutHistory(workoutHistory: $workoutHistory)
+            
+           
         }
         .padding(.horizontal)
         .navigationTitle("Summary")
@@ -124,27 +122,7 @@ struct WorkoutTaskView: View {
     }
 }
 
-struct WorkoutHistory: View {
-    
-    @Binding var workoutHistory: [Workout]
-    
-    var body: some View {
-        if workoutHistory.isEmpty {
-            Text("No progress data available.")
-                .padding()
-        } else {
-            ForEach(workoutHistory.reversed()) { workout in
-                VStack(alignment: .leading) {
-                    Text("Activity: \(workout.activity)")
-                        .font(.headline)
-                    Text("Duration: \(workout.duration) min")
-                    Text("Intensity: \(workout.intensity) / 10")
-                    Text("Date: \(workout.date, formatter: dateFormatter)")
-                }
-            }
-        }
-    }
-}
+
     
 #Preview {
     ContentView()

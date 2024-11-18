@@ -29,24 +29,25 @@ struct Goal_view: View {
             Text("Workout Plan")
                 .font(.title3)
                 .bold()
-            ForEach(0..<workouts.count, id: \.self) { index in
-                
-                HStack {
-                    Text(workouts[index])
-                        .font(.title2)
-                        .bold()
-                    Spacer()
-                    if index < Int(workoutsCompleted) {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                    } else {
-                        Image(systemName: "circle")
-                            .foregroundColor(.gray)
-                    }
+            VStack(spacing: 15){
+                ForEach(0..<workouts.count, id: \.self) { index in
                     
+                    HStack {
+                        Text(workouts[index])
+                            .font(.title2)
+                            .bold()
+                        Spacer()
+                        if index < Int(workoutsCompleted) {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.green)
+                        } else {
+                            Image(systemName: "circle")
+                                .foregroundColor(.gray)
+                        }
+                        
+                    }
                 }
             }
-            
             Divider()
             
             

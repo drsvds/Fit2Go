@@ -49,16 +49,21 @@ struct Workout_View: View {
         VStack(alignment: .leading) {
             // Date Navigation
             HStack {
-                Button(action: {
-                    // Handle previous date action
-                    date = date.addingTimeInterval(-86400)
-                    reps -= 1
-                }) {
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(showPicker ? .gray : .blue)
+                if reps > 10 {
+                    Button(action: {
+                        // Handle previous date action
+                        date = date.addingTimeInterval(-86400)
+                        
+                        reps -= 1
+                        
+                        
+                        
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(showPicker ? .gray : .blue)
+                    }
+                    .disabled(showPicker)
                 }
-                .disabled(showPicker)
-                
                 Spacer()
                 
                 Text(date, format: .dateTime.day().month())
@@ -146,28 +151,39 @@ struct Workout_View: View {
                     
                     if remainingTime == 0 {
                         if currentExerciseIndex < exercises.count - 1 {
-                            Button("Next") {
+                            Button{
                                 workoutsCompleted += 1
                                 moveToNextExercise() // Move to next exercise and mark the current one as completed
+                            } label: {
+                                Text("Next")
+                                .padding(30)
+                                .frame(maxWidth: .infinity)
+                                .background(Color.green)
+                                .foregroundColor(.primary)
+                                .bold()
+                                .font(.title3)
+                                .cornerRadius(8)
                             }
-                            .padding(30)
-                            .background(Color.yellow)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                            
                         } else {
                             Button("Finish") {
                                 finishWorkout()
                                 workoutsCompleted += 1
                                 currentExerciseIndex += 1
                                 streakDays += 1
+                                showPicker.toggle()
                                 if(streakDays == 8){
                                     streakDays = 1
                                     streakWeeks += 1
                                 }
+                                
                             }
                             .padding(30)
+                            .frame(maxWidth: .infinity)
                             .background(Color.red)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
+                            .bold()
+                            .font(.title3)
                             .cornerRadius(8)
                         }
                     }

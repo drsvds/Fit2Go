@@ -17,6 +17,7 @@ struct Workout_View: View {
     @State private var timer: Timer? = nil
     @State private var workoutTime = 60
     @State private var showPicker : Bool = false
+    @State var components = DateComponents()
     
     @Binding var workoutsCompleted: Double
     @Binding var streakDays: Double
@@ -99,6 +100,8 @@ struct Workout_View: View {
                 }
             }
             
+            
+            
             // Current Exercise Section
             if currentExerciseIndex < exercises.count {
                 VStack {
@@ -142,6 +145,7 @@ struct Workout_View: View {
                                     streakDays = 1
                                     streakWeeks += 1
                                 }
+                                
                             }
                             .padding(30)
                             .background(Color.red)
@@ -203,8 +207,9 @@ struct Workout_View: View {
     // Function to finish the workout and mark all exercises as completed
     private func finishWorkout() {
         // Mark all exercises as completed when finishing the workout
-        exercises = exercises.map { ($0.0, $0.1, true) } // Set all exercises to completed
+        exercises = exercises.map { ($0.0, $0.1 + 1, true) } // Set all exercises to completed
         print("Workout Finished!")
+        
     }
 }
 

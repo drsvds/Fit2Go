@@ -3,12 +3,12 @@ import SwiftUI
 struct Workout_View: View {
     @State private var selectedDifficulty = "Normal"
     @State var exercises = [
-        ("Pushups", 10, false),
-        ("Situps", 10, false),
-        ("Squats", 10, false),
-        ("Curls", 10, false),
-        ("Leg raises", 10, false),
-        ("Burpees", 10, false)
+        ("Pushups", false),
+        ("Situps", false),
+        ("Squats", false),
+        ("Curls", false),
+        ("Leg raises", false),
+        ("Burpees", false)
     ]
     @State private var date = Date.now
     @State private var currentExerciseIndex = 0
@@ -17,11 +17,12 @@ struct Workout_View: View {
     @State private var timer: Timer? = nil
     @State private var workoutTime = 60
     @State private var showPicker : Bool = false
-    @State var components = DateComponents()
+    @State var reps = 10
     
     @Binding var workoutsCompleted: Double
     @Binding var streakDays: Double
     @Binding var streakWeeks: Double
+    
     var body: some View {
         VStack(alignment: .leading) {
             // Date Navigation
@@ -37,7 +38,7 @@ struct Workout_View: View {
                 
                 Spacer()
                 
-                Text(date,format: .dateTime.day().month())
+                Text(date, format: .dateTime.day().month())
                     .font(.title)
                     .bold()
                 
@@ -55,7 +56,6 @@ struct Workout_View: View {
             .padding(.horizontal)
             
             // Difficulty Picker
-            
             Picker(selection: $selectedDifficulty, label: Text("Difficulty")) {
                 Text("Recovery").tag("Recovery")
                 Text("Normal").tag("Normal")
@@ -64,9 +64,6 @@ struct Workout_View: View {
             .disabled(showPicker)
             .pickerStyle(SegmentedPickerStyle())
             .padding(.horizontal)
-            .onChange(of: selectedDifficulty) { _ in
-                updateRepetitions()
-            }
             .animation(.default, value: 2)
             
             Divider()
@@ -75,23 +72,21 @@ struct Workout_View: View {
             VStack(spacing: 10) {
                 ForEach(0..<exercises.count, id: \.self) { index in
                     HStack {
-                        if exercises[index].2 { // Check if completed
+                        if exercises[index].1 { // Check if completed
                             Image(systemName: "checkmark.circle.fill") // Show checkmark if completed
                                 .foregroundColor(.blue)
                         }
                         
                         Text("\(index + 1). \(exercises[index].0)")
                             .font(.body)
-                            .strikethrough(exercises[index].2) // Strike through if completed
+                            .strikethrough(exercises[index].1) // Strike through if completed
                         
                         Spacer()
                         
-                        Text("\(exercises[index].1) reps")
+                        Text("\(reps) reps")
                             .contentTransition(.numericText())
                             .font(.body)
                     }
-                    .padding(.horizontal)
-                    
                     Divider()
                 }
             }
@@ -128,7 +123,7 @@ struct Workout_View: View {
                         if currentExerciseIndex < exercises.count - 1 {
                             Button("Next") {
                                 workoutsCompleted += 1
-                                moveToNextExercise()
+                                moveToNextExercise() // Move to next exercise and mark the current one as completed
                             }
                             .padding(30)
                             .background(Color.yellow)
@@ -144,7 +139,6 @@ struct Workout_View: View {
                                     streakDays = 1
                                     streakWeeks += 1
                                 }
-                                
                             }
                             .padding(30)
                             .background(Color.red)
@@ -159,22 +153,6 @@ struct Workout_View: View {
         }
         .padding()
         .navigationTitle("Plan")
-    }
-    
-    // Function to update repetitions based on selected difficulty
-    private func updateRepetitions() {
-        withAnimation {
-            switch selectedDifficulty {
-            case "Recovery":
-                exercises = exercises.map { ($0.0, 5, $0.2) } // Set all exercises to 5 reps
-            case "Normal":
-                exercises = exercises.map { ($0.0, 10, $0.2) } // Set all exercises to 10 reps
-            case "Hard":
-                exercises = exercises.map { ($0.0, 20, $0.2) } // Set all exercises to 20 reps
-            default:
-                break
-            }
-        }
     }
     
     // Function to start the timer
@@ -194,7 +172,7 @@ struct Workout_View: View {
     // Function to move to the next exercise
     private func moveToNextExercise() {
         // Mark the current exercise as completed
-        exercises[currentExerciseIndex].2 = true
+        exercises[currentExerciseIndex].1 = true
         
         // Move to the next exercise
         currentExerciseIndex += 1
@@ -205,7 +183,7 @@ struct Workout_View: View {
     // Function to finish the workout and mark all exercises as completed
     private func finishWorkout() {
         // Mark all exercises as completed when finishing the workout
-        exercises = exercises.map { ($0.0, $0.1 + 1, true) } // Set all exercises to completed
+        exercises = exercises.map { ($0.0, true) } // Set all exercises to completed
         print("Workout Finished!")
         date = date.addingTimeInterval(86400)
     }

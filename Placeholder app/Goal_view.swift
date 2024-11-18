@@ -39,9 +39,11 @@ struct Goal_view: View {
                         if index < Int(workoutsCompleted) {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.green)
+                                .font(.system(size:20))
                         } else {
                             Image(systemName: "circle")
                                 .foregroundColor(.gray)
+                                .font(.system(size:25))
                         }
                         
                     }

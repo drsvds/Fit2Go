@@ -16,21 +16,23 @@ struct ContentView: View {
     var body: some View {
         if hasOpenedAppBefore {
             TabView {
-                Goal_view(streakDays: $streakDays , streakWeeks: $streakWeeks,  workoutsCompleted: $workoutsCompleted)
-                    .tabItem {
-                        Label("Home", systemImage: "house.fill")
-                    }
-                Workout_View(workoutsCompleted: $workoutsCompleted, streakDays: $streakDays, streakWeeks: $streakWeeks)
-                    .tabItem {
-                        Label("Workout", systemImage: "figure.mixed.cardio")
-                    }
-            }
+                NavigationView {
+                    Goal_view(streakDays: $streakDays , streakWeeks: $streakWeeks,  workoutsCompleted: $workoutsCompleted)
+                }
+                .tabItem {
+                    Label("Home", systemImage: "house.fill")
+                }
+                
+                NavigationView {
+                    Workout_View(workoutsCompleted: $workoutsCompleted, streakDays: $streakDays, streakWeeks: $streakWeeks)
+                        .tabItem {
+                            Label("Workout", systemImage: "figure.mixed.cardio")
+                        }
         } else {
             FirstLaunchView(hasOpenedAppBefore: $hasOpenedAppBefore)
         }
     }
 }
-
 #Preview {
     ContentView()
 }

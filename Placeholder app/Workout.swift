@@ -17,34 +17,34 @@ struct Workout: Identifiable {
     var completed: Bool
 }
 
-//struct ContentView: View {
-//    @AppStorage("isQuestionnaireCompleted") var isQuestionnaireCompleted = false
-//    @State private var selectedDuration: String? = nil
-//    @State private var selectedExercise: String? = nil
-//    @State private var workoutHistory: [Workout] = []
-//
-//    var body: some View {
-//        NavigationView {
-//            VStack {
-//                if isQuestionnaireCompleted {
-//                    HomePageView(
-//                        workoutHistory: $workoutHistory,
-//                        selectedDuration: selectedDuration,
-//                        selectedExercise: selectedExercise
-//                    )
-//                } else {
-//                    QuestionnaireView(
-//                        isQuestionnaireCompleted: $isQuestionnaireCompleted,
-//                        selectedDuration: $selectedDuration,
-//                        selectedExercise: $selectedExercise
-//                    )
-//                }
-//            }
-//            .navigationTitle("Fitness Tracker")
-//            .navigationBarHidden(true)
-//        }
-//    }
-//}
+struct Progress_View: View {
+    @AppStorage("isQuestionnaireCompleted") var isQuestionnaireCompleted = false
+    @State private var selectedDuration: String? = nil
+    @State private var selectedExercise: String? = nil
+    @State private var workoutHistory: [Workout] = []
+
+    var body: some View {
+        NavigationView {
+            VStack {
+                if isQuestionnaireCompleted {
+                    HomePageView(
+                        workoutHistory: $workoutHistory,
+                        selectedDuration: selectedDuration,
+                        selectedExercise: selectedExercise
+                    )
+                } else {
+                    QuestionnaireView(
+                        isQuestionnaireCompleted: $isQuestionnaireCompleted,
+                        selectedDuration: $selectedDuration,
+                        selectedExercise: $selectedExercise
+                    )
+                }
+            }
+            .navigationTitle("Fitness Tracker")
+            .navigationBarHidden(true)
+        }
+    }
+}
 
 // Questionnaire View to collect user preferences
 struct QuestionnaireView: View {
@@ -111,61 +111,30 @@ struct HomePageView: View {
 
     var body: some View {
         VStack {
-            Text("Welcome to Your Fitness Tracker")
-                .font(.title)
-                .fontWeight(.bold)
-                .padding()
-
-            // Circle showing percentage of goals completed
-            ActivityCircleView(workoutHistory: workoutHistory)
-
-            // Progress Line Graph
-            ProgressLineGraph(workoutHistory: workoutHistory)
-
-            Spacer()
-
-            // Add New Activity Button
-            Button(action: {
-                showWorkoutPage.toggle()
-            }) {
-                Text("Add New Activity")
-                    .font(.title2)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(LinearGradient(gradient: Gradient(colors: [Color.cyan, Color.blue]), startPoint: .top, endPoint: .bottom))
-                    .foregroundColor(.white)
-                    .cornerRadius(12)
-                    .shadow(radius: 10)
-                    .padding(.horizontal)
-            }
-            .sheet(isPresented: $showWorkoutPage) {
-                Spacer()
-                WorkoutPageView(
-                    workoutHistory: $workoutHistory,
-                    selectedDuration: selectedDuration,
-                    selectedExercise: selectedExercise
-                )
-                .presentationDetents([.medium])
-            }
-            
-
-            // View Roadmap Button
-            NavigationLink(destination: RoadmapPageView(workoutHistory: workoutHistory)) {
-                Text("View Progress Roadmap")
-                    .font(.title2)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(LinearGradient(gradient: Gradient(colors: [Color.orange, Color.red]), startPoint: .top, endPoint: .bottom))
-                    .foregroundColor(.white)
-                    .cornerRadius(12)
-                    .shadow(radius: 10)
-                    .padding(.horizontal)
+            List {
+                
+                // Circle showing percentage of goals completed
+                ActivityCircleView(workoutHistory: workoutHistory)
+                
+                // Progress Line Graph
+//                ProgressLineGraph(workoutHistory: workoutHistory)
+                
+                if workoutHistory.isEmpty {
+                    Text("No progress data available.")
+                        .padding()
+                } else {
+                    ForEach(workoutHistory.reversed()) { workout in
+                        VStack(alignment: .leading) {
+                            Text("Activity: \(workout.activity)")
+                                .font(.headline)
+                            Text("Duration: \(workout.duration) min")
+                            Text("Intensity: \(workout.intensity) / 10")
+                            Text("Date: \(workout.date, formatter: dateFormatter)")
+                        }
+                    }
+                }
             }
         }
-        .padding()
-        .background(LinearGradient(gradient: Gradient(colors: [Color.purple.opacity(0.1), Color.blue.opacity(0.1)]), startPoint: .top, endPoint: .bottom))
-        .cornerRadius(15)
-        .padding()
     }
 }
 
@@ -192,7 +161,7 @@ struct ActivityCircleView: View {
                     .trim(from: 0.0, to: CGFloat(goalCompletionPercentage) / 100.0)
                     .stroke(
                         AngularGradient(
-                            gradient: Gradient(colors: [Color.green, Color.blue]),
+                            gradient: Gradient(colors: [Color.blue]),
                             center: .center
                         ),
                         lineWidth: 10
@@ -209,29 +178,29 @@ struct ActivityCircleView: View {
     }
 }
 
-// Progress Line Graph displaying intensity over time
-struct ProgressLineGraph: View {
-    var workoutHistory: [Workout]
-    
-    var body: some View {
-        let workouts = workoutHistory.sorted { $0.date < $1.date }
-        
-        if workouts.isEmpty {
-            return AnyView(Text("No data available").padding())
-        } else {
-            return AnyView(
-                VStack {
-                    Text("Progress Graph")
-                        .font(.title2)
-                        .padding(.bottom, 10)
-                    
-                    LineGraph(data: workouts.map { $0.intensity })
-                        .frame(height: 200)
-                }
-            )
-        }
-    }
-}
+//// Progress Line Graph displaying intensity over time
+//struct ProgressLineGraph: View {
+//    var workoutHistory: [Workout]
+//    
+//    var body: some View {
+//        let workouts = workoutHistory.sorted { $0.date < $1.date }
+//        
+//        if workouts.isEmpty {
+//            return AnyView(Text("No data available").padding())
+//        } else {
+//            return AnyView(
+//                VStack {
+//                    Text("Progress Graph")
+//                        .font(.title2)
+//                        .padding(.bottom, 10)
+//                    
+//                    LineGraph(data: workouts.map { $0.intensity })
+//                        .frame(height: 200)
+//                }
+//            )
+//        }
+//    }
+//}
 
 struct LineGraph: View {
     var data: [Int]
@@ -332,17 +301,12 @@ struct RoadmapPageView: View {
 
     var body: some View {
         VStack {
-            Text("Your Fitness Roadmap")
-                .font(.title)
-                .fontWeight(.bold)
-                .padding()
-
             if workoutHistory.isEmpty {
                 Text("No progress data available.")
                     .padding()
             } else {
                 List {
-                    ForEach(workoutHistory) { workout in
+                    ForEach(workoutHistory.reversed()) { workout in
                         VStack(alignment: .leading) {
                             Text("Activity: \(workout.activity)")
                                 .font(.headline)
@@ -350,14 +314,13 @@ struct RoadmapPageView: View {
                             Text("Intensity: \(workout.intensity) / 10")
                             Text("Date: \(workout.date, formatter: dateFormatter)")
                         }
-                        .padding()
+//                        .padding()
                     }
                 }
             }
-
-            Spacer()
         }
-        .padding()
+        .navigationTitle("Roadmap")
+//        .padding()
     }
 }
 

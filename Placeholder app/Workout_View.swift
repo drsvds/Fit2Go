@@ -23,13 +23,7 @@ struct Workout_View: View {
     @Binding var streakDays: Double
     @Binding var streakWeeks: Double
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            // Title
-            Text("Plan")
-                .font(.largeTitle)
-                .bold()
-                .padding(.top)
-            
+        VStack(alignment: .leading) {
             // Date Navigation
             HStack {
                 Button(action: {
@@ -102,7 +96,7 @@ struct Workout_View: View {
                 }
             }
             
-            
+            Spacer()
             
             // Current Exercise Section
             if currentExerciseIndex < exercises.count {
@@ -122,8 +116,11 @@ struct Workout_View: View {
                             }
                         }
                         .padding(30)
-                        .background(Color.green)
-                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.accentColor)
+                        .foregroundColor(.primary)
+                        .bold()
+                        .font(.title3)
                         .cornerRadius(8)
                     }
                     
@@ -159,10 +156,9 @@ struct Workout_View: View {
                 .padding()
                 .frame(maxWidth: .infinity)
             }
-            
-            Spacer()
         }
         .padding()
+        .navigationTitle("Plan")
     }
     
     // Function to update repetitions based on selected difficulty
@@ -215,8 +211,7 @@ struct Workout_View: View {
     }
 }
 
-//#Preview {
+#Preview {
 //    Workout_View(workoutsCompleted: .constant(0))
-//}
-
-
+    ContentView()
+}

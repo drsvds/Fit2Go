@@ -49,7 +49,7 @@ struct Goal_view: View {
            
         }
         .padding(.horizontal)
-        .navigationTitle("Summary")
+        .navigationTitle("Home")
     }
 }
 

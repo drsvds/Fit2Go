@@ -17,22 +17,31 @@ struct Workout_View: View {
     @State private var workoutTime = 60
     @State private var showPicker: Bool = false
     @State var reps = 10
+    @State var todayReps = 10
     @State private var showExerciseSheet = false
-
+    
     @Binding var workoutsCompleted: Double
     @Binding var streakDays: Double
     @Binding var streakWeeks: Double
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             // Date Navigation
             HStack {
-                Button(action: {
-                    date = date.addingTimeInterval(-86400)
-                    reps = max(reps - 1, 1)
-                }) {
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(showPicker ? .gray : .blue)
+                if reps > 10 {
+                    Button(action: {
+                        // Handle previous date action
+                        date = date.addingTimeInterval(-86400)
+                        
+                        reps -= 1
+                        
+                        todayReps -= 1
+                        
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(showPicker ? .gray : .blue)
+                    }
+                    .disabled(showPicker)
                 }
                 Spacer()
                 
@@ -45,6 +54,7 @@ struct Workout_View: View {
                 Button(action: {
                     date = date.addingTimeInterval(86400)
                     reps += 1
+                    todayReps += 1
                 }) {
                     Image(systemName: "chevron.right")
                         .foregroundColor(showPicker ? .gray : .blue)
@@ -129,68 +139,70 @@ struct Workout_View: View {
         withAnimation {
             switch selectedDifficulty {
             case "Recovery":
-                reps = max(reps - 5, 1)
+                reps = max(todayReps - 5, 1) // Decrease reps, ensure minimum is 1
             case "Normal":
-                reps = 10
+                // Default for Normal
+                reps = todayReps
             case "Hard":
-                reps += 5
+                reps = todayReps + 5 // Increase reps
             default:
                 break
             }
         }
     }
-}
-
-struct ExerciseSheet: View {
-    var exercise: String
-    @Binding var remainingTime: Int
-    @Binding var isTimerRunning: Bool
-    @State private var timer: Timer? = nil
     
-    var body: some View {
-        VStack {
-            Text("Exercise: \(exercise)")
-                .font(.title)
-                .bold()
-                .padding()
-            
-            Text("\(remainingTime) seconds")
-                .font(.title2)
-                .padding()
-            
-            Button(isTimerRunning ? "Stop" : "Start") {
-                if isTimerRunning {
-                    stopTimer()
-                } else {
-                    startTimer()
+    
+    
+    struct ExerciseSheet: View {
+        var exercise: String
+        @Binding var remainingTime: Int
+        @Binding var isTimerRunning: Bool
+        @State private var timer: Timer? = nil
+        
+        var body: some View {
+            VStack {
+                Text("Exercise: \(exercise)")
+                    .font(.title)
+                    .bold()
+                    .padding()
+                
+                Text("\(remainingTime) seconds")
+                    .font(.title2)
+                    .padding()
+                
+                Button(isTimerRunning ? "Stop" : "Start") {
+                    if isTimerRunning {
+                        stopTimer()
+                    } else {
+                        startTimer()
+                    }
                 }
+                .padding()
+                .background(isTimerRunning ? Color.red : Color.green)
+                .foregroundColor(.white)
+                .cornerRadius(8)
             }
             .padding()
-            .background(isTimerRunning ? Color.red : Color.green)
-            .foregroundColor(.white)
-            .cornerRadius(8)
         }
-        .padding()
-    }
-    
-    private func startTimer() {
-        isTimerRunning = true
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            if remainingTime > 0 {
-                remainingTime -= 1
-            } else {
-                stopTimer()
+        
+        private func startTimer() {
+            isTimerRunning = true
+            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                if remainingTime > 0 {
+                    remainingTime -= 1
+                } else {
+                    stopTimer()
+                }
             }
         }
-    }
-    
-    private func stopTimer() {
-        isTimerRunning = false
-        timer?.invalidate()
-        timer = nil
+        
+        private func stopTimer() {
+            isTimerRunning = false
+            timer?.invalidate()
+            timer = nil
+        }
     }
 }
-
 #Preview {
     Workout_View(workoutsCompleted: .constant(0), streakDays: .constant(0), streakWeeks: .constant(0))
 }

@@ -11,58 +11,20 @@ struct Workout_View: View {
         ("Burpees", false)
     ]
     @State private var date = Date.now
-    @State private var currentExerciseIndex = 0
     @State private var isTimerRunning = false
-    @State private var remainingTime = 60
-    @State private var workoutTime = 60
+    @State private var remainingTime = 1
+    @State private var workoutTime = 1
     @State private var showPicker: Bool = false
     @State var reps = 10
     @State var todayReps = 10
     @State private var showExerciseSheet = false
     
-    @Binding var workoutsCompleted: Double
+    @Binding var workoutsCompleted: Int
     @Binding var streakDays: Double
     @Binding var streakWeeks: Double
     
     var body: some View {
         VStack(alignment: .leading) {
-            // Date Navigation
-            HStack {
-                if reps > 10 {
-                    Button(action: {
-                        // Handle previous date action
-                        date = date.addingTimeInterval(-86400)
-                        
-                        reps -= 1
-                        
-                        todayReps -= 1
-                        
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(showPicker ? .gray : .blue)
-                    }
-                    .disabled(showPicker)
-                }
-                Spacer()
-                
-                Text(date, format: .dateTime.day().month())
-                    .font(.title)
-                    .bold()
-                
-                Spacer()
-                
-                Button(action: {
-                    date = date.addingTimeInterval(86400)
-                    reps += 1
-                    todayReps += 1
-                }) {
-                    Image(systemName: "chevron.right")
-                        .foregroundColor(showPicker ? .gray : .blue)
-                }
-                .disabled(showPicker)
-            }
-            .padding(.horizontal)
-            
             // Difficulty Picker
             Picker(selection: $selectedDifficulty, label: Text("Difficulty")) {
                 Text("Recovery").tag("Recovery")
@@ -71,7 +33,6 @@ struct Workout_View: View {
             }
             .disabled(showPicker)
             .pickerStyle(SegmentedPickerStyle())
-            .padding(.horizontal)
             .onChange(of: selectedDifficulty) { _ in
                 updateRepetitions()
             }
@@ -89,6 +50,7 @@ struct Workout_View: View {
                         
                         Text("\(index + 1). \(exercises[index].0)")
                             .font(.title3)
+                            .monospacedDigit()
                         
                         Spacer()
                         
@@ -103,36 +65,67 @@ struct Workout_View: View {
             Spacer()
             
             // Current Exercise Section
-            if currentExerciseIndex < exercises.count {
+            if workoutsCompleted < exercises.count {
                 VStack {
-                    Text("Current Exercise: \(exercises[currentExerciseIndex].0)")
+                    Text("Current Exercise: \(exercises[workoutsCompleted].0)")
                         .font(.title2)
                         .bold()
                     
-                    Button("Start") {
+                    Button {
                         showExerciseSheet = true
+                    } label: {
+                        Text("Start")
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.accentColor)
+                            .foregroundColor(.white)
+                            .bold()
+                            .font(.title3)
                     }
-                    .padding(30)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.accentColor)
-                    .foregroundColor(.white)
-                    .bold()
-                    .font(.title3)
                     .cornerRadius(8)
                 }
-                .padding()
-                .frame(maxWidth: .infinity)
             }
         }
         .padding()
-        .navigationTitle("Plan")
+        .navigationTitle("Today's Plan")
         .sheet(isPresented: $showExerciseSheet) {
             ExerciseSheet(
-                exercise: exercises[currentExerciseIndex].0,
+                exercise: exercises[workoutsCompleted].0,
+                isLastItem: workoutsCompleted == exercises.count - 1,
                 remainingTime: $remainingTime,
-                isTimerRunning: $isTimerRunning
-            )
+                isTimerRunning: $isTimerRunning) {
+                    moveToNextExercise()
+                }
         }
+        
+    }
+    
+    private func moveToNextExercise() {
+        // Mark current exercise as completed
+        exercises[workoutsCompleted].1 = true
+        
+        // Check if there are more exercises
+        if workoutsCompleted < exercises.count - 1 {
+            // Move to the next exercise
+            workoutsCompleted += 1
+            remainingTime = 1 // Reset timer
+        } else {
+            // All exercises completed
+            finishWorkout()
+        }
+    }
+
+    private func finishWorkout() {
+        // Mark all exercises as completed
+        exercises = exercises.map { ($0.0, true) }
+        workoutsCompleted += 1
+        streakDays += 1
+        if streakDays == 8 {
+            streakDays = 1
+            streakWeeks += 1
+        }
+        print("Workout Finished!")
+        date = date.addingTimeInterval(86400) // Move to the next day
     }
     
     private func updateRepetitions() {
@@ -151,58 +144,81 @@ struct Workout_View: View {
         }
     }
     
+}
+
+struct ExerciseSheet: View {
+    var exercise: String
     
+    var isLastItem = false
+    @Binding var remainingTime: Int
+    @Binding var isTimerRunning: Bool
+    @State private var timer: Timer? = nil
+    var onFinish: () -> Void
     
-    struct ExerciseSheet: View {
-        var exercise: String
-        @Binding var remainingTime: Int
-        @Binding var isTimerRunning: Bool
-        @State private var timer: Timer? = nil
-        
-        var body: some View {
-            VStack {
-                Text("Exercise: \(exercise)")
-                    .font(.title)
-                    .bold()
-                    .padding()
-                
-                Text("\(remainingTime) seconds")
-                    .font(.title2)
-                    .padding()
-                
-                Button(isTimerRunning ? "Stop" : "Start") {
-                    if isTimerRunning {
-                        stopTimer()
-                    } else {
-                        startTimer()
-                    }
-                }
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        VStack {
+            Spacer()
+            
+            Text("Exercise")
+                .font(.title3)
+                .bold()
+                .foregroundStyle(.secondary)
+            Text("\(exercise)")
+                .font(.largeTitle)
+                .bold()
+            
+            Text("\(remainingTime)s")
+                .font(.system(size: 100, weight: .heavy))
                 .padding()
-                .background(isTimerRunning ? Color.red : Color.green)
-                .foregroundColor(.white)
-                .cornerRadius(8)
-            }
-            .padding()
-        }
-        
-        private func startTimer() {
-            isTimerRunning = true
-            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                if remainingTime > 0 {
-                    remainingTime -= 1
-                } else {
+                .monospacedDigit()
+                .contentTransition(.numericText())
+            
+            Spacer()
+            
+            Button {
+                if isTimerRunning {
                     stopTimer()
+                } else {
+                    startTimer()
+                }
+            } label: {
+                Text(isTimerRunning ? "Stop" : "Start")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(isTimerRunning ? Color.red : Color.green)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+            }
+        }
+        .padding()
+    }
+    
+    private func startTimer() {
+        isTimerRunning = true
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            if remainingTime > 0 {
+                withAnimation {
+                    remainingTime -= 1
+                }
+            } else {
+                stopTimer()
+                onFinish() // Call the function to move to the next exercise
+                if isLastItem {
+                    dismiss()
                 }
             }
-        }
-        
-        private func stopTimer() {
-            isTimerRunning = false
-            timer?.invalidate()
-            timer = nil
         }
     }
+    
+    private func stopTimer() {
+        isTimerRunning = false
+        timer?.invalidate()
+        timer = nil
+    }
 }
+
 #Preview {
     Workout_View(workoutsCompleted: .constant(0), streakDays: .constant(0), streakWeeks: .constant(0))
 }

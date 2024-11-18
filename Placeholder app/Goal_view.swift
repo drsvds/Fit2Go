@@ -16,43 +16,39 @@ struct Goal_view: View {
     
     @Binding var streakDays: Double
     @Binding var streakWeeks: Double
-    @Binding var workoutsCompleted: Double
+    @Binding var workoutsCompleted: Int
+    
     
     var body: some View {
         ScrollView {
             // Progress Circle
-            CircularProgressView(progress: (workoutsCompleted/6))
-                .frame(width: 120, height: 120)
+            CircularProgressView(progress: Double(workoutsCompleted) / 6)
+                .frame(width: 240, height: 240)
                 .padding(.vertical)
             
-            // Workout Tasks
-            Text("Workout Plan")
-                .font(.title)
-                .bold()
-            VStack(spacing: 15){
+            VStack {
                 ForEach(0..<workouts.count, id: \.self) { index in
+                    
+                    Divider()
                     
                     HStack {
                         Text(workouts[index])
-                            .font(.title2)
                         Spacer()
                         if index < Int(workoutsCompleted) {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.green)
-                                .font(.system(size:20))
                         } else {
                             Image(systemName: "circle")
                                 .foregroundColor(.gray)
-                                .font(.system(size:25))
                         }
                         
                     }
+                    .font(.title2)
+                    .padding(.vertical, 8)
                 }
+                Divider()
             }
-            Divider()
             
-            
-           
         }
         .padding(.horizontal)
         .navigationTitle("Home")
@@ -83,7 +79,7 @@ struct StreakView: View {
         Spacer()
     }
 }
-    
+
 // Custom Circular Progress View
 struct CircularProgressView: View {
     var progress: Double
@@ -100,13 +96,13 @@ struct CircularProgressView: View {
                 .foregroundColor(.green)
                 .rotationEffect(Angle(degrees: 270.0))
             Text("\(Int(progress * 100))%")
-                .font(.title)
+                .font(.largeTitle)
                 .bold()
         }
     }
 }
-    
-    // Workout Task View
+
+// Workout Task View
 struct WorkoutTaskView: View {
     var time: String
     var task: String
@@ -129,7 +125,7 @@ struct WorkoutTaskView: View {
 }
 
 
-    
+
 #Preview {
     ContentView()
 }

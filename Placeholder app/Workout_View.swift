@@ -109,7 +109,7 @@ struct Workout_View: View {
         if workoutsCompleted < exercises.count - 1 {
             // Move to the next exercise
             workoutsCompleted += 1
-            remainingTime = 60 // Reset timer
+            remainingTime = 60// Reset timer
         } else {
             // All exercises completed
             finishWorkout()

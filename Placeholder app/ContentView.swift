@@ -11,10 +11,11 @@ struct ContentView: View {
     @AppStorage("workoutsCompleted") var workoutsCompleted = 0
     @AppStorage("lastLoginDate") var lastLoginDate = Date.distantPast
     
-    @State var streakDays:Double = 0
-    @State var streakWeeks:Double = 0
+//    @State var streakDays:Double = 0
+//    @State var streakWeeks:Double = 0
 //    @AppStorage("hasOpenedAppBefore") var hasOpenedAppBefore : Bool = false
-    
+    @AppStorage("streakDays") var streakDays:Double = 0
+    @AppStorage("streakWeeks") var streakWeeks:Double = 0
     
 //    @State var hasOpenedAppBefore = false
     var body: some View {

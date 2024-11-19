@@ -47,6 +47,8 @@ struct Goal_view: View {
                     .padding(.vertical, 6)
                 }
                 Divider()
+                
+                Spacer()
                 StreakView(streakWeeks: $streakWeeks, streakDays: $streakDays)
                 
                 
@@ -65,19 +67,23 @@ struct StreakView: View {
     
     var body: some View {
         // Streak Section
-        HStack {
+        VStack {
             Text("Streak: \(Int(streakWeeks)) weeks")
                 .font(.headline)
             
             Spacer()
             
-            HStack(spacing: 8) {
+            HStack() {
+                
                 ForEach(0..<7) { index in
                     Circle()
                         .fill(index < Int(streakDays) ? Color.green : Color.green.opacity(0.3))
                         .frame(width: 24, height: 24)
                 }
+                .padding(.horizontal, 6)
             }
+            
+           
         }
         Spacer()
     }

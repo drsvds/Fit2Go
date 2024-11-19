@@ -1,26 +1,26 @@
+////
+////  FirstLaunchView.swift
+////  Placeholder app
+////
+////  Created by T Krobot on 17/11/24.
+////
 //
-//  FirstLaunchView.swift
-//  Placeholder app
+//import SwiftUI
 //
-//  Created by T Krobot on 17/11/24.
+//struct FirstLaunchView: View {
+//    @Binding var hasOpenedAppBefore : Bool
+//    var body: some View {
+//        VStack {
+//            Button {
+//                hasOpenedAppBefore = true
+//            } label: {
+//                Text("BUTTON \(hasOpenedAppBefore)")
+//            }
+//        }
+//    }
+//}
 //
-
-import SwiftUI
-
-struct FirstLaunchView: View {
-    @Binding var hasOpenedAppBefore : Bool
-    var body: some View {
-        VStack {
-            Button {
-                hasOpenedAppBefore = true
-            } label: {
-                Text("BUTTON \(hasOpenedAppBefore)")
-            }
-        }
-    }
-}
-
-#Preview {
-    @Previewable @State var hasOpenedAppBefore = false
-    FirstLaunchView(hasOpenedAppBefore: $hasOpenedAppBefore)
-}
+//#Preview {
+//    @Previewable @State var hasOpenedAppBefore = false
+//    FirstLaunchView(hasOpenedAppBefore: $hasOpenedAppBefore)
+//}

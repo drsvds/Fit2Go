@@ -18,6 +18,7 @@ struct Workout_View: View {
     @State var reps = 10
     @State var todayReps = 10
     @State private var showExerciseSheet = false
+    @State var repIncrease = 0
     
     @Binding var workoutsCompleted: Int
     @Binding var streakDays: Double

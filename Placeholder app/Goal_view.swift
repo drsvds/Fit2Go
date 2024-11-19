@@ -23,7 +23,7 @@ struct Goal_view: View {
         ScrollView {
             // Progress Circle
             CircularProgressView(progress: Double(workoutsCompleted) / 6)
-                .frame(width: 240, height: 240)
+                .frame(width: 180, height: 180)
                 .padding(.vertical)
             
             VStack {
@@ -44,11 +44,14 @@ struct Goal_view: View {
                         
                     }
                     .font(.title2)
-                    .padding(.vertical, 8)
+                    .padding(.vertical, 6)
                 }
                 Divider()
+                StreakView(streakWeeks: $streakWeeks, streakDays: $streakDays)
+                
+                
             }
-            
+           
         }
         .padding(.horizontal)
         .navigationTitle("Home")

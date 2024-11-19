@@ -13,11 +13,13 @@ struct ContentView: View {
     
     @State var streakDays:Double = 0
     @State var streakWeeks:Double = 0
-    @AppStorage("hasOpenedAppBefore") var hasOpenedAppBefore : Bool = false
+//    @AppStorage("hasOpenedAppBefore") var hasOpenedAppBefore : Bool = false
+    
+    
 //    @State var hasOpenedAppBefore = false
     var body: some View {
         Group {
-            if hasOpenedAppBefore {
+//            if hasOpenedAppBefore {
                 TabView {
                     NavigationView {
                         Goal_view(streakDays: $streakDays , streakWeeks: $streakWeeks,  workoutsCompleted: $workoutsCompleted)
@@ -33,9 +35,9 @@ struct ContentView: View {
                         Label("Workout", systemImage: "figure.mixed.cardio")
                     }
                 }
-            } else {
-                FirstLaunchView(hasOpenedAppBefore: $hasOpenedAppBefore)
-            }
+//            } //else {
+//                FirstLaunchView(hasOpenedAppBefore: $hasOpenedAppBefore)
+//            }
         }
         .onAppear {
             if !Calendar.current.isDateInToday(lastLoginDate) {

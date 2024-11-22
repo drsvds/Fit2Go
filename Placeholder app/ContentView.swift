@@ -41,7 +41,14 @@ struct ContentView: View {
 //            }
         }
         .onAppear {
+            let calendar = Calendar.current
+            
             if !Calendar.current.isDateInToday(lastLoginDate) {
+                if let missedDays = calendar.dateComponents([.day], from: lastLoginDate, to: .now).day, missedDays > 1 {
+                           // User missed a day or more
+                           streakDays = 0
+                           streakWeeks = 0
+                       }
                 workoutsCompleted = 0
             }
             

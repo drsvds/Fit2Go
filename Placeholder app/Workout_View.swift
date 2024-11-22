@@ -12,8 +12,8 @@ struct Workout_View: View {
     ]
     @State private var date = Date.now
     @State private var isTimerRunning = false
-    @State private var remainingTime = 60
-    @State private var workoutTime = 60
+    @State private var remainingTime = 1
+    @State private var workoutTime = 1
     @State private var showPicker: Bool = false
     @State var reps = 10
     @State var todayReps = 10
@@ -109,7 +109,7 @@ struct Workout_View: View {
         if workoutsCompleted < exercises.count - 1 {
             // Move to the next exercise
             workoutsCompleted += 1
-            remainingTime = 60// Reset timer
+            remainingTime = 1// Reset timer
         } else {
             // All exercises completed
             finishWorkout()
@@ -126,7 +126,7 @@ struct Workout_View: View {
             streakWeeks += 1
         }
         print("Workout Finished!")
-        date = date.addingTimeInterval(86400) // Move to the next day
+//        date = date.addingTimeInterval(86400) // Move to the next day
     }
     
     private func updateRepetitions() {

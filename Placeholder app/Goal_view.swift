@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct Goal_view: View {
-    let date = Date.now
+    @State private var date = Date.now
     
     let workouts = [
         ("Pushups"),
@@ -22,6 +22,12 @@ struct Goal_view: View {
     var body: some View {
         ScrollView {
             // Progress Circle
+//            Button{
+//                        date = date.addingTimeInterval(86400)
+//            } label: {
+//                Text("balls")
+//            }
+            
             CircularProgressView(progress: Double(workoutsCompleted) / 6)
                 .frame(width: 180, height: 180)
                 .padding(.vertical)

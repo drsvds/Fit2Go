@@ -6,14 +6,14 @@ struct Workout_View: View {
         ("Pushups", false),
         ("Situps", false),
         ("Squats", false),
-        ("Curls", false),
         ("Leg raises", false),
+        ("Lunges", false),
         ("Burpees", false)
     ]
     @State private var date = Date.now
     @State private var isTimerRunning = false
-    @State private var remainingTime = 1
-    @State private var workoutTime = 1
+    @State private var remainingTime = 60
+    @State private var workoutTime = 60
     @State private var showPicker: Bool = false
     @State var reps = 10
     @State var todayReps = 10
@@ -201,7 +201,7 @@ struct ExerciseSheet: View {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             if remainingTime > 0 {
                 withAnimation {
-                    remainingTime -= 1
+                    remainingTime -= 60
                 }
             } else {
                 stopTimer()

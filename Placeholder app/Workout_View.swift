@@ -109,7 +109,7 @@ struct Workout_View: View {
         if workoutsCompleted < exercises.count - 1 {
             // Move to the next exercise
             workoutsCompleted += 1
-            remainingTime = 1// Reset timer
+            remainingTime = 60// Reset timer
         } else {
             // All exercises completed
             finishWorkout()
@@ -201,7 +201,7 @@ struct ExerciseSheet: View {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             if remainingTime > 0 {
                 withAnimation {
-                    remainingTime -= 60
+                    remainingTime -= 1
                 }
             } else {
                 stopTimer()
